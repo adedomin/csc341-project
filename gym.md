@@ -66,7 +66,7 @@ birth       DATE        n/a        DOB of a user can provide which
                                    can be used to offer specials.
 ----------- ----------- ---------- -----------------------------------
 
-: A Person entity
+: Person entity
 
 ### 2.1.1. Customer
 
@@ -88,7 +88,7 @@ is_active   BOOLEAN     n/a        Programmatically indicates if
                                    and last_pay date
 ----------- ----------- ---------- -----------------------------------
 
-: A customer entity
+: Customer entity
 
 ### 2.1.2. Employee
 
@@ -108,7 +108,7 @@ type        CHAR(1)     n/a        Determines if the user is a
                                    therapist or trainer.
 ----------- ----------- ---------- -----------------------------------
 
-: A employee entity
+: Employee entity
 
 ### 2.1.3. Trainer
 
@@ -124,7 +124,16 @@ code        VARCHAR(6)  n/a        an extra random code that is passed
                                    trainers are entered.
 ----------- ----------- ---------- -----------------------------------
 
-: A Trainer entity
+: Trainer entity
+
+### 2.1.4. Rules
+
+At the end, there are people associated with the gym.
+They can be divided into customers and employees.
+Customers have active or inactive memberships and are expected to pay their fees on time.
+Employees are people of a gym that provide services to the gym; they can also be customers as well.
+Trainers are a subset of employees which can teach classes or do individual training sessions with customers.
+For unique constraints, a trainer has a code which is used in other entites to ensure that only trainers are added to classes and services.
 
 ![Entity relationships for persons](./figures/person.png)
 
@@ -148,13 +157,72 @@ type        CHAR(1)     n/a        A char that determines if the
                                    A free weight or a weightlifting
                                    component
 
+value       NUMBER      n/a        A number describing its current
+                                   estimated value to the business.
+
 since       DATE        n/a        A date describing when the gear
                                    was added to the gym.
-
-birth       DATE        n/a        DOB of a user can provide which
-                                   can be used to offer specials.
 ----------- ----------- ---------- -----------------------------------
 
-: The high level equipment gear.
+: Gym Equipment.
 
+### 2.2.1. Weightlifting Equipment
 
+This is a subtype of equipment which describes simpler equipment involved mostly with weight training.
+Examples: plates, dumbdells, 2" olympic bars.
+
+----------- ----------- ---------- -----------------------------------
+column name type        typeof key description
+----------- ----------- ---------- -----------------------------------
+equip_id    VARCHAR(6)  primary    The primary identifier of the gear.
+
+weight      NUMBER      n/a        The weight of the weight equipment
+
+type        VARCHAR(20) n/a        The type of weight product this is.
+                                   e.g. plate, bar, dumbbell, etc.
+
+diameter    NUMBER      n/a        For bars and plates; This describes
+                                   the diameter of the hole that the
+                                   plate has in its center and what
+                                   plates will fit on a bar. generally
+                                   should only be 2 inches. This is 
+                                   null for dumbbells.
+----------- ----------- ---------- -----------------------------------
+
+: Weightlifting Equipment Entity
+
+### 2.2.2. Machine Equipment
+
+A subtype of equipment which describes products like treadmills and other "machine" training devices.
+This also describes things like powercages and squat racks which might have more use in weightlifting.
+This is a subtype because unlike weightlifting gear, machines can go "out of order," generally must be maintained frequently, can have replacement parts and various other information.
+
+----------- ----------- ---------- -----------------------------------
+column name type        typeof key description
+----------- ----------- ---------- -----------------------------------
+equip_id    VARCHAR(6)  primary    The primary identifier of the gear.
+
+type        VARCHAR(20) n/a        The type of machine this is.
+                                   e.g. treadmill, powercage, bench...
+
+in_order    BOOLEAN     n/a        If the machine is functioning as
+                                   expected.
+
+maintained  DATE        n/a        Last maintained at this date.
+
+next_mainta DATE        n/a        Next date maintainance is scheduled
+                                   for this part.
+
+serial      VARCHAR(30) n/a        Machine serial number or other 
+                                   identifier to find parts for this
+                                   machine.
+----------- ----------- ---------- -----------------------------------
+
+: Machine Equipment Entity
+
+### 2.2.3. Rules
+
+A gym has equipment which allows it to provide services.
+The gym has two splits of equipment, weightlifting and machine equipment.
+Weightlifting equipment can be discarded if it breaks due to their simplistic design, low price, and construction.
+However machine components are much more valuable and have more working parts which may need to be maintained and fixed, thus a much more complex entity.
