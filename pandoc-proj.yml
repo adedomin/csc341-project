@@ -1,0 +1,8 @@
+name: gym
+type: pdf
+source_files:
+  - '*.md'
+depends: []
+filters: []
+buildOpts:
+  - '--self-contained'
