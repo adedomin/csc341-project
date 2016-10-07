@@ -1,7 +1,7 @@
 name: gym
 type: pdf
 source_files:
-  - '*.md'
+  - 'gym.md'
 depends: []
 filters: []
 buildOpts:
