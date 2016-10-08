@@ -84,9 +84,9 @@ A machine is much more expensive to purchase so it is pivotal that they be maint
 So a machine record should contain a date since it was last maintained and when the next maintenance should be done.
 A machine will likely have parts or lubricants; to find these, the product serial number should be held on record so they can be found.
 
-### 1.1.4. Services and Classes
+### 1.1.4. Sessions and Classes
 
-A service is a one-on-one personal training service for one customer to one personal trainer.
+A session is a one-on-one personal training service for one customer to one personal trainer.
 such services will add an additional charge for each one.
 
 Personal trainers can teach classes. classes have a fixed time and days it is ran.
@@ -124,10 +124,10 @@ city        VARCHAR(20) n/a        The city.
 type        VARCHAR(1)  n/a        A char that determines if the user
                                    is an employee or customer.
 
-since       DATE        n/a        A date describing when they were a
+since       Date        n/a        A date describing when they were a
                                    member of the gym. 
 
-birth       DATE        n/a        DOB of a user can provide which
+birth       Date        n/a        DOB of a user can provide which
                                    can be used to offer specials.
 ----------- ----------- ---------- -----------------------------------
 
@@ -144,13 +144,16 @@ column name type        typeof key description
 person_id   CHAR(6)     PK/FK      The primary identifier of a
                                    customer, from person.
 
-last_pay    DATE        n/a        Indicates if this customer is up to
+last_pay    Date        n/a        Indicates if this customer is up to
                                    date with their membership fees.
 
-is_active   BOOLEAN     n/a        Programmatically indicates if 
+is_active   Boolean     n/a        Programmatically indicates if 
                                    customer is up to date with payment
                                    Determined by since field in parent
                                    and last_pay date
+
+fees        derived     n/a        Amount derived from the formula:
+                                   BASE_CHARGE + Session(s)
 ----------- ----------- ---------- -----------------------------------
 
 : Customer entity
@@ -166,7 +169,7 @@ column name type        typeof key description
 person_id   CHAR(6)     PK/FK      The primary identifier of a
                                    customer, from person.
 
-wage        NUMBER      n/a        amount paid per hour.
+wage        DECIMAL(2) n/a        amount paid per hour.
 
 type        CHAR(1)     n/a        Determines if the user is a
                                    generic employee or a physical 
@@ -216,14 +219,14 @@ type        CHAR(1)     n/a        A char that determines if the
                                    A free weight or a weightlifting
                                    component
 
-value       DECIMAL     n/a        A number describing its current
+value       DECIMAL(2)  n/a        A number describing its current
                                    estimated value to the business.
 
-since       DATE        n/a        A date describing when the gear
+since       Date        n/a        A date describing when the gear
                                    was added to the gym.
 ----------- ----------- ---------- -----------------------------------
 
-: Gym Equipment.
+: Gym Equipment
 
 ### 2.2.1. Weightlifting Equipment
 
@@ -235,12 +238,12 @@ column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
 equip_id    CHAR(6)     primary    The primary identifier of the gear.
 
-weight      NUMBER      n/a        The weight of the weight equipment
+weight      Integer     n/a        The weight of the weight equipment
 
 type        VARCHAR(20) n/a        The type of weight product this is.
                                    e.g. plate, bar, dumbbell, etc.
 
-diameter    NUMBER      n/a        For bars and plates; This describes
+diameter    Integer     n/a        For bars and plates; This describes
                                    the diameter of the hole that the
                                    plate has in its center and what
                                    plates will fit on a bar. generally
@@ -264,10 +267,10 @@ equip_id    CHAR(6)     primary    The primary identifier of the gear.
 type        VARCHAR(20) n/a        The type of machine this is.
                                    e.g. treadmill, powercage, bench...
 
-in_order    BOOLEAN     n/a        If the machine is functioning as
+in_order    Boolean     n/a        If the machine is functioning as
                                    expected.
 
-maintained  DATE        n/a        Last maintained at this date.
+maintained  Date        n/a        Last maintained at this date.
 
 serial      VARCHAR(30) n/a        Machine serial number or other 
                                    identifier to find parts for this
@@ -290,7 +293,7 @@ employee_id CHAR(6)     PK/FK      The employee maintaining this.
 
 type        VARCHAR(20) n/a        What is being worked on.
 
-date        DATE        n/a        When the maintenance is going to 
+date        Date        n/a        When the maintenance is going to 
                                    take place.
 ----------- ----------- ---------- -----------------------------------
 
@@ -323,7 +326,7 @@ customer_id CHAR(6)     PK/FK      The primary identifier of the
 trainer_id  CHAR(6)     PK/FK      The trainer that provides this
                                    service, if null, no trainer.
 
-cost        DECIMAL     n/a        The cost this service adds to a
+cost        DECIMAL(2) n/a        The cost this service adds to a
                                    customer's fee.
 
 time        TIME        n/a        Time this session occurs
@@ -332,7 +335,7 @@ days        VARCHAR(7)  n/a        The days this service occurs
                                    (M)on (T)ue (W)ed (Th)ur (F)ri (S)a
 ----------- ----------- ---------- -----------------------------------
 
-: Services Entity
+: Session Entity
 
 3.2. Classes
 ------------
