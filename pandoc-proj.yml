@@ -6,3 +6,4 @@ depends: []
 filters: []
 buildOpts:
   - '--self-contained'
+  - '--toc'
