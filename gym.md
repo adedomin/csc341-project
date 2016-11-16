@@ -155,13 +155,13 @@ Below is the definition of a customer.
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-person_id   NUMERIC(6)  PK/FK      The primary identifier of a
+person_id   NUMERIC(10) PK/FK      The primary identifier of a
                                    customer, from person.
 
 last_pay    Date        n/a        Indicates if this customer is up to
                                    date with their membership fees.
 
-is_active   Boolean     n/a        Programmatically indicates if 
+is_active   CHAR(1)     n/a        Programmatically indicates if 
                                    customer is up to date with payment
                                    Determined by since field in parent
                                    and last_pay date
@@ -219,7 +219,7 @@ Below is an entity used to identify this equipment at a high level.
 ----------- ------------ ---------- -----------------------------------
 column name type         typeof key description
 ----------- ------------ ---------- -----------------------------------
-equip_id    NUMERIC(6)   PK         The primary identifier of the gear.
+equip_id    NUMERIC(10)  PK         The primary identifier of the gear.
 
 name        VARCHAR(30)  n/a        name of the gear.
 
@@ -273,7 +273,7 @@ This is a subtype because unlike weightlifting gear, machines can go "out of ord
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-equip_id    NUMERIC(6)  PK         The primary identifier of the gear.
+equip_id    NUMERIC(10) PK         The primary identifier of the gear.
 
 type        VARCHAR(20) n/a        The type of machine this is.
                                    e.g. treadmill, powercage, bench...
@@ -298,9 +298,9 @@ Many machines can have many maintainers and likewise.
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-equip_id    NUMERIC(6)  PK/FK      A machine being maintained.
+equip_id    NUMERIC(10) PK/FK      A machine being maintained.
 
-employee_id NUMERIC(6)  PK/FK      The employee maintaining this.
+employee_id NUMERIC(10) PK/FK      The employee maintaining this.
 
 type        VARCHAR(20) n/a        What is being worked on.
 
@@ -331,10 +331,10 @@ Sessions that a customer has with a personal trainer, or base membership if trai
 ----------- ------------ ---------- -----------------------------------
 column name type         typeof key description
 ----------- ------------ ---------- -----------------------------------
-customer_id NUMERIC(6)   PK/FK      The primary identifier of the
+customer_id NUMERIC(10)  PK/FK      The primary identifier of the
                                     customer
 
-trainer_id  NUMERIC(6)   PK/FK      The trainer that provides this
+trainer_id  NUMERIC(10)  PK/FK      The trainer that provides this
                                     service, if null, no trainer.
 
 cost        NUMERIC(5,2) n/a        The cost this service adds to a
@@ -356,7 +356,7 @@ Optional classes taught by trainers at a given time and on the day(s) shown.
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-trainer_id  NUMERIC(6)  PK/FK      The trainer that leads this class.
+trainer_id  NUMERIC(10) PK/FK      The trainer that leads this class.
 
 class_type  VARCHAR(25) PK         The class that is being taught.
 
