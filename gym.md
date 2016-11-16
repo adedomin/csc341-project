@@ -108,6 +108,16 @@ Personal trainers can teach classes. classes have a fixed time and days it is ra
 2. Key Entities
 ===============
 
+Before going into the data, please keep in mind these virtual types.
+They must equal the values in the constraint column.
+
+name  actual       constraints
+----- ------------ ------------------
+BOOL  CHAR(1)      'y' OR 'n'
+PTYPE CHAR(1)      'c' OR 'e' 
+ETYPE CHAR(1)      'w' OR 'm'
+TIME  NUMERIC(4,0) 2400 > TIME > 0
+
 There are two major entities in our model, "People" and "Equipment."
 From these, most of our data model is derived.
 
@@ -135,7 +145,7 @@ state       CHAR(2)     n/a        The state.
 
 city        VARCHAR(20) n/a        The city.
 
-person_t    VARCHAR(1)  n/a        A char that determines if the user
+person_t    PTYPE       n/a        A char that determines if the user
                                    is an employee or customer.
 
 since       Date        n/a        A date describing when they were a
@@ -161,7 +171,7 @@ person_id   NUMERIC(10) PK/FK      The primary identifier of a
 last_pay    Date        n/a        Indicates if this customer is up to
                                    date with their membership fees.
 
-is_active   CHAR(1)     n/a        Programmatically indicates if 
+is_active   BOOL        n/a        Programmatically indicates if 
                                    customer is up to date with payment
                                    Determined by since field in parent
                                    and last_pay date
@@ -182,7 +192,7 @@ person_id   NUMERIC(10)  PK/FK      The primary identifier of a
                          
 wage        NUMERIC(5,2) n/a        amount paid per hour.
                          
-type        CHAR(1)      n/a        Determines if the user is a
+is_trainer  BOOL         n/a        Determines if the user is a
                                     generic employee or a physical 
                                     therapist or trainer.
 ----------- ------------ ---------- -----------------------------------
@@ -225,7 +235,7 @@ name        VARCHAR(30)  n/a        name of the gear.
 
 brand       VARCHAR(30)  n/a        brand name of the gear.
 
-equip_type  CHAR(1)      n/a        A char that determines if the 
+equip_type  ETYPE        n/a        A char that determines if the 
                                     equipment is a machine of if it is
                                     A free weight or a weightlifting
                                     component
@@ -249,17 +259,18 @@ column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
 equip_id    NUMERIC(10) PK         The primary identifier of the gear.
 
-weight      Integer     n/a        The weight of the weight equipment
+weight      NUMERIC(3)  n/a        The weight of the weight equipment.
+                                   Weight is in Imperial lbs.
 
 type        VARCHAR(20) n/a        The type of weight product this is.
                                    e.g. plate, bar, dumbbell, etc.
 
-diameter    Integer     n/a        For bars and plates; This describes
+diameter    NUMERIC(3)  n/a        For bars and plates; This describes
                                    the diameter of the hole that the
                                    plate has in its center and what
                                    plates will fit on a bar. generally
                                    should only be 2 inches. This is 
-                                   null for dumbbells.
+                                   null for dumbbells or other.
 ----------- ----------- ---------- -----------------------------------
 
 : Weightlifting Equipment Entity
@@ -278,7 +289,7 @@ equip_id    NUMERIC(10) PK         The primary identifier of the gear.
 type        VARCHAR(20) n/a        The type of machine this is.
                                    e.g. treadmill, powercage, bench...
 
-in_order    Boolean     n/a        If the machine is functioning as
+in_order    BOOL        n/a        If the machine is functioning as
                                    expected.
 
 maintained  Date        n/a        Last maintained at this date.
@@ -360,7 +371,7 @@ trainer_id  NUMERIC(10) PK/FK      The trainer that leads this class.
 
 class_type  VARCHAR(25) PK         The class that is being taught.
 
-time        Time        n/a        The time this class is taught at.
+time        TIME        n/a        The time this class is taught at.
 
 day         VARCHAR(7)  n/a        A string of all the days this
                                    day is taught. 6 days total.
