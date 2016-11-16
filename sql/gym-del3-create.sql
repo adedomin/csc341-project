@@ -27,7 +27,7 @@ ALTER TABLE Team00.Person ADD (
 CREATE TABLE Team00.Customer (
     customer_id     NUMERIC(10,0),
     last_payment    DATE,
-    is_active       BOOLEAN     NOT NULL
+    is_active       CHAR(1)     DEFAULT 't'
 ) TABLESPACE CSC341_TEAM_DATA;
 
 CREATE UNIQUE INDEX Team00.Customer_pk_IDX ON Team00.Customer (
@@ -36,7 +36,7 @@ CREATE UNIQUE INDEX Team00.Customer_pk_IDX ON Team00.Customer (
 
 ALTER TABLE Team00.Customer ADD (
     CONSTRAINT customer_person_fk
-        FOREIGN KEY (customer_id) REFERENCES Person (person_id),
+        FOREIGN KEY (customer_id) REFERENCES Person (person_id)
             ON DELETE CASCADE,
     CONSTRAINT customer_pk
         PRIMARY KEY (customer_id)
@@ -78,12 +78,12 @@ ALTER TABLE Team00.Trainer ADD (
 
 CREATE TABLE Team00.Class (
     trainer_id      NUMERIC(10,0),
-    class_name      VARCHAR(30)     NOT NULL,
+    class_name      VARCHAR(30),
     time            NUMERIC(4,0)
 ) TABLESPACE CSC341_TEAM_DATA;
 
 CREATE UNIQUE INDEX Team00.Class_pk_IDX ON Team00.Class (
-    class_id ASC
+    class_name
 ) TABLESPACE CSC341_TEAM_DATA;
 
 ALTER TABLE Team00.Class ADD (
@@ -121,7 +121,7 @@ ALTER TABLE Team00.Equipment ADD (
 CREATE TABLE Team00.WeightEquip (
     equip_id    NUMERIC(10,0),
     weight      NUMERIC(3,0),
-    weight_type VARCHAR(20),    NOT NULL,
+    weight_type VARCHAR(20)    NOT NULL,
     diameter    NUMERIC(2)
 ) TABLESPACE CSC341_TEAM_DATA;
 
@@ -141,7 +141,7 @@ CREATE TABLE Team00.MachineEquip (
     equip_id        NUMERIC(10,0),
     machine_type    VARCHAR(20)     NOT NULL,
     serial          VARCHAR(30)     NOT NULL,
-    functioning     BOOLEAN,
+    functioning     CHAR(1)         DEFAULT 't',
     last_maintained DATE
 ) TABLESPACE CSC341_TEAM_DATA;
 
@@ -157,26 +157,26 @@ ALTER TABLE Team00.MachineEquip ADD (
         PRIMARY KEY (equip_id)
 );
 
-CREATE TABLE Team00.Maintainance (
+CREATE TABLE Team00.Maintenance (
     equip_id    NUMERIC(10,0),
     employee_id NUMERIC(10,0),
     needs_work  VARCHAR(50)     NOT NULL,
-    date        DATE
+    work_date   DATE
 ) TABLESPACE CSC341_TEAM_DATA;
 
-CREATE UNIQUE INDEX Team00.Maintainance_pk_IDX ON Team00.Maintainance (
+CREATE UNIQUE INDEX Team00.Maintenance_pk_IDX ON Team00.Maintenance (
     equip_id,
     employee_id
 ) TABLESPACE CSC341_TEAM_DATA;
 
-ALTER TABLE Team00.Maintainance (
-    CONSTRAINT maintainance_machine_fk
+ALTER TABLE Team00.Maintenance ADD (
+    CONSTRAINT maintenance_machine_fk
         FOREIGN KEY (equip_id) REFERENCES MachineEquip (equip_id)
             ON DELETE CASCADE,
-    CONSTRAINT maintainance_employee_fk
+    CONSTRAINT maintenance_employee_fk
         FOREIGN KEY (employee_id) REFERENCES Employee (employee_id)
             ON DELETE SET NULL,
-    CONSTRAINT maintainance_pk
+    CONSTRAINT maintenance_pk
         PRIMARY KEY (equip_id, employee_id)
 );
 
@@ -185,7 +185,7 @@ CREATE TABLE Sessions (
     trainer_id      NUMERIC(10,0),
     service_fee     NUMERIC(5,2)    NOT NULL,
     time            NUMERIC(4,0),
-    days            VARCHAR(7),
+    days            VARCHAR(7)
 ) TABLESPACE CSC341_TEAM_DATA;
 
 CREATE UNIQUE INDEX Team00.Sessions_pk_IDX ON Team00.Sessions (
@@ -193,7 +193,7 @@ CREATE UNIQUE INDEX Team00.Sessions_pk_IDX ON Team00.Sessions (
     trainer_id
 ) TABLESPACE CSC341_TEAM_DATA;
 
-ALTER TABLE Team00.Sessions (
+ALTER TABLE Team00.Sessions ADD (
     CONSTRAINT sessions_customer_fk
         FOREIGN KEY (customer_id) REFERENCES Customer (customer_id)
             ON DELETE CASCADE,
