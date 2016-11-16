@@ -121,7 +121,7 @@ Below is a simple table outlining all the properties these people have in common
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-person_id   NUMERIC(6)  PK         The primary identifier of a person.
+person_id   NUMERIC(10) PK         The primary identifier of a person.
 
 fisrt       VARCHAR(30) n/a        The person's first name, UTF8.
 
@@ -129,13 +129,13 @@ last        VARCHAR(30) n/a        The person's last name, UTF8.
 
 phone       CHAR(11)    n/a        the full phone number.
 
-address     VARCHAR(30) n/a        The address line.
+address     VARCHAR(69) n/a        The address line.
 
 state       CHAR(2)     n/a        The state.
 
 city        VARCHAR(20) n/a        The city.
 
-type        VARCHAR(1)  n/a        A char that determines if the user
+person_t    VARCHAR(1)  n/a        A char that determines if the user
                                    is an employee or customer.
 
 since       Date        n/a        A date describing when they were a
@@ -177,7 +177,7 @@ Below is the entity.
 ----------- ------------ ---------- -----------------------------------
 column name type         typeof key description
 ----------- ------------ ---------- -----------------------------------
-person_id   NUMERIC(6)   PK/FK      The primary identifier of a
+person_id   NUMERIC(10)  PK/FK      The primary identifier of a
                                     customer, from person.
                          
 wage        NUMERIC(5,2) n/a        amount paid per hour.
@@ -196,7 +196,7 @@ A trainer is an employee that is responsible for running classes at the gym or o
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-person_id   NUMERIC(6)  PK/FK      The primary identifier of a
+person_id   NUMERIC(10) PK/FK      The primary identifier of a
 ----------- ----------- ---------- -----------------------------------
 
 : Trainer entity
@@ -225,7 +225,7 @@ name        VARCHAR(30)  n/a        name of the gear.
 
 brand       VARCHAR(30)  n/a        brand name of the gear.
 
-type        CHAR(1)      n/a        A char that determines if the 
+equip_type  CHAR(1)      n/a        A char that determines if the 
                                     equipment is a machine of if it is
                                     A free weight or a weightlifting
                                     component
@@ -247,7 +247,7 @@ Examples: plates, dumbdells, 2" olympic bars.
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-equip_id    NUMERIC(6)  PK         The primary identifier of the gear.
+equip_id    NUMERIC(10) PK         The primary identifier of the gear.
 
 weight      Integer     n/a        The weight of the weight equipment
 
