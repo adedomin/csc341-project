@@ -5,6 +5,7 @@ abstract: |
     *firstly, we will discuss the upper most important entities, display tables about them and talk about their sub classes and how they enhance the data model as a whole.*
     *afterwards, I will discuss the high level knowledge of the business and how these entites came about.*
     *Models of the data will be strewn across the document to enhance the understanding.*
+    *For detailed and summarized revision history, please see: <https://github.com/adedomin/csc341-project>*
 
 papersize: letter
 geometry: margin=2cm
@@ -29,7 +30,20 @@ header-includes:
 The problem domain we seek to solve is organizing our knowledge of our gym business into a clear, concise data model.
 THe key being to represent the core parts of our business, to enhance the experience of out customer and to get insights into what we, the gym, need to do to make it better.
 
-1.1. Business Rules
+1.1. Example Use Cases
+----------------------
+
+  * The database should allow us to quickly discover the total value of the inventory.
+  * The database should allow us to calculate how much money we should make from subscriptions.
+  * The database should show employees what machines they are responsible for.
+  * The database should allow us to track broken down machines.
+  * The database should allow out sales and retention team to reach out to inactive members.
+  * The database should help us to make equipment purchasing decisions based on number of these equipments.
+  * The database should help us to find parts for broken machines, by finding them and returning a serial number to look up.
+  * The database should retain personal information for billing, handing out promotional offerings, etc.
+  * The database should assist trainers be notified who, a member, they are training.
+
+1.2. Business Rules
 -------------------
 
 Like all gyms and places of business there are people.
@@ -48,7 +62,7 @@ An employee has a wage and a role.
 A person can also be a trainer.
 A trainer record has no specific attribute.
 
-### 1.1.1. Customer Interactions
+### 1.2.1. Customer Interactions
 
 A customer enrolls to services of the gym.
 An example of a service would be general gym membership.
@@ -58,11 +72,11 @@ Other services, like one-on-one personal trainer services, will have a trainer a
 Services can have many customers and customers can have many services associated to them.
 Customers can also use equipment, however this interaction can't be precise.
 
-### 1.1.2. Trainer Interactions
+### 1.2.2. Trainer Interactions
 
 Trainers are special employees that teach classes and can provide personal services for customers.
 
-### 1.1.3. Inventory Management
+### 1.2.3. Inventory Management
 
 A gym has a large amount of very valuable equipment.
 It is important to keep track of it for accounting reasons, but also to ensure products are being properly maintained.
@@ -84,7 +98,7 @@ A machine is much more expensive to purchase so it is pivotal that they be maint
 So a machine record should contain a date since it was last maintained and when the next maintenance should be done.
 A machine will likely have parts or lubricants; to find these, the product serial number should be held on record so they can be found.
 
-### 1.1.4. Sessions and Classes
+### 1.2.4. Sessions and Classes
 
 A session is a one-on-one personal training service for one customer to one personal trainer.
 such services will add an additional charge for each one.
@@ -107,7 +121,7 @@ Below is a simple table outlining all the properties these people have in common
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-person_id   CHAR(6)     primary    The primary identifier of a person.
+person_id   NUMERIC(6)  PK         The primary identifier of a person.
 
 fisrt       VARCHAR(30) n/a        The person's first name, UTF8.
 
@@ -141,7 +155,7 @@ Below is the definition of a customer.
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-person_id   CHAR(6)     PK/FK      The primary identifier of a
+person_id   NUMERIC(6)  PK/FK      The primary identifier of a
                                    customer, from person.
 
 last_pay    Date        n/a        Indicates if this customer is up to
@@ -151,9 +165,6 @@ is_active   Boolean     n/a        Programmatically indicates if
                                    customer is up to date with payment
                                    Determined by since field in parent
                                    and last_pay date
-
-fees        derived     n/a        Amount derived from the formula:
-                                   BASE_CHARGE + Session(s)
 ----------- ----------- ---------- -----------------------------------
 
 : Customer entity
@@ -163,18 +174,18 @@ fees        derived     n/a        Amount derived from the formula:
 An employee entity is someone we pay to maintain and provid services to the customers through the gym.
 Below is the entity.
 
------------ ----------- ---------- -----------------------------------
-column name type        typeof key description
------------ ----------- ---------- -----------------------------------
-person_id   CHAR(6)     PK/FK      The primary identifier of a
-                                   customer, from person.
-
-wage        DECIMAL(2) n/a        amount paid per hour.
-
-type        CHAR(1)     n/a        Determines if the user is a
-                                   generic employee or a physical 
-                                   therapist or trainer.
------------ ----------- ---------- -----------------------------------
+----------- ------------ ---------- -----------------------------------
+column name type         typeof key description
+----------- ------------ ---------- -----------------------------------
+person_id   NUMERIC(6)   PK/FK      The primary identifier of a
+                                    customer, from person.
+                         
+wage        NUMERIC(5,2) n/a        amount paid per hour.
+                         
+type        CHAR(1)      n/a        Determines if the user is a
+                                    generic employee or a physical 
+                                    therapist or trainer.
+----------- ------------ ---------- -----------------------------------
 
 : Employee entity
 
@@ -185,7 +196,7 @@ A trainer is an employee that is responsible for running classes at the gym or o
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-person_id   CHAR(6)     PK/FK      The primary identifier of a
+person_id   NUMERIC(6)  PK/FK      The primary identifier of a
 ----------- ----------- ---------- -----------------------------------
 
 : Trainer entity
@@ -205,26 +216,26 @@ For unique constraints, a trainer has a code which is used in other entites to e
 A gym has numerous amounts of workout related equipment.
 Below is an entity used to identify this equipment at a high level.
 
------------ ----------- ---------- -----------------------------------
-column name type        typeof key description
------------ ----------- ---------- -----------------------------------
-equip_id    CHAR(6)     primary    The primary identifier of the gear.
+----------- ------------ ---------- -----------------------------------
+column name type         typeof key description
+----------- ------------ ---------- -----------------------------------
+equip_id    NUMERIC(6)   PK         The primary identifier of the gear.
 
-name        VARCHAR(30) n/a        name of the gear.
+name        VARCHAR(30)  n/a        name of the gear.
 
-brand       VARCHAR(30) n/a        brand name of the gear.
+brand       VARCHAR(30)  n/a        brand name of the gear.
 
-type        CHAR(1)     n/a        A char that determines if the 
-                                   equipment is a machine of if it is
-                                   A free weight or a weightlifting
-                                   component
+type        CHAR(1)      n/a        A char that determines if the 
+                                    equipment is a machine of if it is
+                                    A free weight or a weightlifting
+                                    component
 
-value       DECIMAL(2)  n/a        A number describing its current
-                                   estimated value to the business.
+value       NUMERIC(7,2) n/a        A number describing its current
+                                    estimated value to the business.
 
-since       Date        n/a        A date describing when the gear
-                                   was added to the gym.
------------ ----------- ---------- -----------------------------------
+since       Date         n/a        A date describing when the gear
+                                    was added to the gym.
+----------- ------------ ---------- -----------------------------------
 
 : Gym Equipment
 
@@ -236,7 +247,7 @@ Examples: plates, dumbdells, 2" olympic bars.
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-equip_id    CHAR(6)     primary    The primary identifier of the gear.
+equip_id    NUMERIC(6)  PK         The primary identifier of the gear.
 
 weight      Integer     n/a        The weight of the weight equipment
 
@@ -262,7 +273,7 @@ This is a subtype because unlike weightlifting gear, machines can go "out of ord
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-equip_id    CHAR(6)     primary    The primary identifier of the gear.
+equip_id    NUMERIC(6)  PK         The primary identifier of the gear.
 
 type        VARCHAR(20) n/a        The type of machine this is.
                                    e.g. treadmill, powercage, bench...
@@ -287,9 +298,9 @@ Many machines can have many maintainers and likewise.
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-equip_id    CHAR(6)     PK/FK      A machine being maintained.
+equip_id    NUMERIC(6)  PK/FK      A machine being maintained.
 
-employee_id CHAR(6)     PK/FK      The employee maintaining this.
+employee_id NUMERIC(6)  PK/FK      The employee maintaining this.
 
 type        VARCHAR(20) n/a        What is being worked on.
 
@@ -315,25 +326,25 @@ This Describes activities and services the gym provides.
 3.1. Personal Sessions
 ----------------------
 
-Sessions that a customer has with a personal trainer.
+Sessions that a customer has with a personal trainer, or base membership if trainer is not set.
 
------------ ----------- ---------- -----------------------------------
-column name type        typeof key description
------------ ----------- ---------- -----------------------------------
-customer_id CHAR(6)     PK/FK      The primary identifier of the
-                                   customer
+----------- ------------ ---------- -----------------------------------
+column name type         typeof key description
+----------- ------------ ---------- -----------------------------------
+customer_id NUMERIC(6)   PK/FK      The primary identifier of the
+                                    customer
 
-trainer_id  CHAR(6)     PK/FK      The trainer that provides this
-                                   service, if null, no trainer.
+trainer_id  NUMERIC(6)   PK/FK      The trainer that provides this
+                                    service, if null, no trainer.
 
-cost        DECIMAL(2) n/a        The cost this service adds to a
-                                   customer's fee.
+cost        NUMERIC(5,2) n/a        The cost this service adds to a
+                                    customer's fee.
 
-time        TIME        n/a        Time this session occurs
+time        TIME         n/a        Time this session occurs
 
-days        VARCHAR(7)  n/a        The days this service occurs
-                                   (M)on (T)ue (W)ed (Th)ur (F)ri (S)a
------------ ----------- ---------- -----------------------------------
+days        VARCHAR(7)   n/a        The days this service occurs
+                                    (M)on (T)ue (W)ed (Th)ur (F)ri (S)a
+----------- ------------ ---------- -----------------------------------
 
 : Session Entity
 
@@ -345,7 +356,7 @@ Optional classes taught by trainers at a given time and on the day(s) shown.
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-trainer_id  CHAR(6)     PK/FK      The trainer that leads this class.
+trainer_id  NUMERIC(6)  PK/FK      The trainer that leads this class.
 
 class_type  VARCHAR(25) PK         The class that is being taught.
 
