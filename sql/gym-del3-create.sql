@@ -21,13 +21,15 @@ CREATE INDEX Team00.Person_determiner_IDX ON Team00.Person (
 
 ALTER TABLE Team00.Person ADD (
     CONSTRAINT person_pk
-        PRIMARY KEY (person_id)
+        PRIMARY KEY (person_id),
+    CONSTRAINT person_type_chk
+        CHECK (person_type = 'e' OR person_type = 'c')
 );
 
 CREATE TABLE Team00.Customer (
     customer_id     NUMERIC(10,0),
     last_payment    DATE,
-    is_active       CHAR(1)     DEFAULT 't'
+    is_active       CHAR(1)     DEFAULT 'y'
 ) TABLESPACE CSC341_TEAM_DATA;
 
 CREATE UNIQUE INDEX Team00.Customer_pk_IDX ON Team00.Customer (
@@ -39,13 +41,15 @@ ALTER TABLE Team00.Customer ADD (
         FOREIGN KEY (customer_id) REFERENCES Person (person_id)
             ON DELETE CASCADE,
     CONSTRAINT customer_pk
-        PRIMARY KEY (customer_id)
+        PRIMARY KEY (customer_id),
+    CONSTRAINT customer_is_active_chk
+        CHECK (is_active = 'y' OR is_active = 'n')
 );
 
 CREATE TABLE Team00.Employee (
     employee_id     NUMERIC(10,0),
     wage            NUMERIC(5,2),
-    is_trainer      CHAR(1) DEFAULT 'n'
+    is_trainer      CHAR(1)         DEFAULT 'n'
 ) TABLESPACE CSC341_TEAM_DATA;
 
 CREATE UNIQUE INDEX Team00.Employee_pk_IDX ON Team00.Employee (
@@ -57,7 +61,9 @@ ALTER TABLE Team00.Employee ADD (
         FOREIGN KEY (employee_id) REFERENCES Person (person_id)
             ON DELETE CASCADE,
     CONSTRAINT employee_pk
-        PRIMARY KEY (employee_id)
+        PRIMARY KEY (employee_id),
+    CONSTRAINT employee_is_trainer_chk
+        CHECK (is_trainer = 'n' OR is_trainer = 'y')
 );
 
 CREATE TABLE Team00.Trainer (
@@ -115,7 +121,9 @@ CREATE INDEX Team00.Equip_determiner_IDX ON Team00.Equipment (
 
 ALTER TABLE Team00.Equipment ADD (
     CONSTRAINT equipment_pk
-        PRIMARY KEY (equip_id)
+        PRIMARY KEY (equip_id),
+    CONSTRAINT equipment_type_chk
+        CHECK (equip_type = 'm' OR equip_type = 'w')
 );
 
 CREATE TABLE Team00.WeightEquip (
@@ -141,7 +149,7 @@ CREATE TABLE Team00.MachineEquip (
     equip_id        NUMERIC(10,0),
     machine_type    VARCHAR(20)     NOT NULL,
     serial          VARCHAR(30)     NOT NULL,
-    functioning     CHAR(1)         DEFAULT 't',
+    functioning     CHAR(1)         DEFAULT 'n',
     last_maintained DATE
 ) TABLESPACE CSC341_TEAM_DATA;
 
@@ -154,7 +162,9 @@ ALTER TABLE Team00.MachineEquip ADD (
         FOREIGN KEY (equip_id) REFERENCES Equipment (equip_id)
             ON DELETE CASCADE,
     CONSTRAINT machine_pk
-        PRIMARY KEY (equip_id)
+        PRIMARY KEY (equip_id),
+    CONSTRAINT machine_functioning_chk
+        CHECK (functioning = 'n' OR functioning = 'y')
 );
 
 CREATE TABLE Team00.Maintenance (
