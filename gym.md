@@ -145,7 +145,7 @@ state       CHAR(2)     n/a        The state.
 
 city        VARCHAR(20) n/a        The city.
 
-person_t    PTYPE       n/a        A char that determines if the user
+person_type PTYPE       n/a        A char that determines if the user
                                    is an employee or customer.
 
 since       Date        n/a        A date describing when they were a
@@ -165,10 +165,10 @@ Below is the definition of a customer.
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-person_id   NUMERIC(10) PK/FK      The primary identifier of a
+customer_id NUMERIC(10) PK/FK      The primary identifier of a
                                    customer, from person.
 
-last_pay    Date        n/a        Indicates if this customer is up to
+last_paymet Date        n/a        Indicates if this customer is up to
                                    date with their membership fees.
 
 is_active   BOOL        n/a        Programmatically indicates if 
@@ -187,7 +187,7 @@ Below is the entity.
 ----------- ------------ ---------- -----------------------------------
 column name type         typeof key description
 ----------- ------------ ---------- -----------------------------------
-person_id   NUMERIC(10)  PK/FK      The primary identifier of a
+employee_id NUMERIC(10)  PK/FK      The primary identifier of a
                                     customer, from person.
                          
 wage        NUMERIC(5,2) n/a        amount paid per hour.
@@ -206,7 +206,7 @@ A trainer is an employee that is responsible for running classes at the gym or o
 ----------- ----------- ---------- -----------------------------------
 column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
-person_id   NUMERIC(10) PK/FK      The primary identifier of a
+trainer_id  NUMERIC(10) PK/FK      The primary identifier of a
 ----------- ----------- ---------- -----------------------------------
 
 : Trainer entity
@@ -262,10 +262,10 @@ equip_id    NUMERIC(10) PK         The primary identifier of the gear.
 weight      NUMERIC(3)  n/a        The weight of the weight equipment.
                                    Weight is in Imperial lbs.
 
-type        VARCHAR(20) n/a        The type of weight product this is.
+weight_type VARCHAR(20) n/a        The type of weight product this is.
                                    e.g. plate, bar, dumbbell, etc.
 
-diameter    NUMERIC(3)  n/a        For bars and plates; This describes
+diameter    NUMERIC(2)  n/a        For bars and plates; This describes
                                    the diameter of the hole that the
                                    plate has in its center and what
                                    plates will fit on a bar. generally
@@ -281,23 +281,23 @@ A subtype of equipment which describes products like treadmills and other "machi
 This also describes things like powercages and squat racks which might have more use in weightlifting.
 This is a subtype because unlike weightlifting gear, machines can go "out of order," generally must be maintained frequently, can have replacement parts and various other information.
 
------------ ----------- ---------- -----------------------------------
-column name type        typeof key description
------------ ----------- ---------- -----------------------------------
-equip_id    NUMERIC(10) PK         The primary identifier of the gear.
+------------ ----------- ---------- -----------------------------------
+column name  type        typeof key description
+------------ ----------- ---------- -----------------------------------
+equip_id     NUMERIC(10) PK         The primary identifier of the gear.
 
-type        VARCHAR(20) n/a        The type of machine this is.
-                                   e.g. treadmill, powercage, bench...
+machine_type VARCHAR(20) n/a        The type of machine this is.
+                                    e.g. treadmill, powercage, bench...
 
-in_order    BOOL        n/a        If the machine is functioning as
-                                   expected.
+in_order     BOOL        n/a        If the machine is functioning as
+                                    expected.
 
-maintained  Date        n/a        Last maintained at this date.
+maintained   Date        n/a        Last maintained at this date.
 
-serial      VARCHAR(30) n/a        Machine serial number or other 
-                                   identifier to find parts for this
-                                   machine.
------------ ----------- ---------- -----------------------------------
+serial       VARCHAR(30) n/a        Machine serial number or other 
+                                    identifier to find parts for this
+                                    machine.
+------------ ----------- ---------- -----------------------------------
 
 : Machine Equipment Entity
 
@@ -313,9 +313,9 @@ equip_id    NUMERIC(10) PK/FK      A machine being maintained.
 
 employee_id NUMERIC(10) PK/FK      The employee maintaining this.
 
-type        VARCHAR(20) n/a        What is being worked on.
+needs_work  VARCHAR(50) n/a        What is being worked on.
 
-date        Date        n/a        When the maintenance is going to 
+work_date   Date        n/a        When the maintenance is going to 
                                    take place.
 ----------- ----------- ---------- -----------------------------------
 
@@ -348,7 +348,7 @@ customer_id NUMERIC(10)  PK/FK      The primary identifier of the
 trainer_id  NUMERIC(10)  PK/FK      The trainer that provides this
                                     service, if null, no trainer.
 
-cost        NUMERIC(5,2) n/a        The cost this service adds to a
+service_fee NUMERIC(5,2) n/a        The cost this service adds to a
                                     customer's fee.
 
 time        TIME         n/a        Time this session occurs
@@ -369,14 +369,9 @@ column name type        typeof key description
 ----------- ----------- ---------- -----------------------------------
 trainer_id  NUMERIC(10) PK/FK      The trainer that leads this class.
 
-class_type  VARCHAR(25) PK         The class that is being taught.
+class_name  VARCHAR(25) PK         The class that is being taught.
 
 time        TIME        n/a        The time this class is taught at.
-
-day         VARCHAR(7)  n/a        A string of all the days this
-                                   day is taught. 6 days total.
-                                   (M)on (T)ues (W)ed (Th)urs (F)ri
-                                   (S)at
 ----------- ----------- ---------- -----------------------------------
 
 : Class entity
