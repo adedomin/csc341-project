@@ -37,16 +37,17 @@ THe key being to represent the core parts of our business, to enhance the experi
   * The database should allow us to calculate how much money we should make from subscriptions.
   * The database should show employees what machines they are responsible for.
   * The database should allow us to track broken down machines.
-  * The database should allow out sales and retention team to reach out to inactive members.
+  * The database should allow our sales and retention team to reach out to inactive members.
   * The database should help us to make equipment purchasing decisions based on number of these equipments.
   * The database should help us to find parts for broken machines, by finding them and returning a serial number to look up.
   * The database should retain personal information for billing, handing out promotional offerings, etc.
   * The database should assist trainers be notified who, a member, they are training.
+  * The database can be used to find out if enough machines are available for a training session.
 
 1.2. Business Rules
 -------------------
 
-Like all gyms and places of business there are people.
+Like all gyms and places of business, there are people.
 People can be a variety of things; customers, employees and trainers.
 People have full names comprised of first names and last names.
 People are assigned their starting date into their record.
@@ -60,17 +61,13 @@ A person can also be an employee.
 An employee has a wage and a role.
 
 A person can also be a trainer.
-A trainer record has no specific attribute.
+A trainer record has no specific--special, attribute.
 
 ### 1.2.1. Customer Interactions
 
-A customer enrolls to services of the gym.
-An example of a service would be general gym membership.
-This general service would have a unique code, some type of identifying string for what it is and a base cost that the enrolled customer would be responsible for.
-Other services, like one-on-one personal trainer services, will have a trainer associated with it.
+A customer enrolls to services of the gym (a fee, see 3.1.). An example of a service would be general gym membership. This general service would have a unique code, some type of identifying string for what it is and a base cost that the enrolled customer would be responsible for. Other services, like one-on-one personal trainer services, will have a trainer associated with it.
 
-Services can have many customers and customers can have many services associated to them.
-Customers can also use equipment, however this interaction can't be precise.
+Fees can have many customers and customers can have many Fees associated to them (see 3.2.). Customers can also use equipment, however this interaction can't be precise.
 
 ### 1.2.2. Trainer Interactions
 
@@ -78,12 +75,12 @@ Trainers are special employees that teach classes and can provide personal servi
 
 ### 1.2.3. Inventory Management
 
-A gym has a large amount of very valuable equipment.
+A gym has a large amount of high value equipment.
 It is important to keep track of it for accounting reasons, but also to ensure products are being properly maintained.
 
 There is a general equipment definition with basic information like the brand and name of the product.
-The equipment has an accounting value.
-The equipment also has a date since it was bought and made available at the gym.
+The equipment has an inventory value.
+The equipment also has a date, which indicates when it was bought and made available at the gym.
 For simplicity, it may be helpful to include a character that identifies what type of equipment it is.
 
 An equipment can be a weightlifting equipment.
@@ -101,9 +98,15 @@ A machine will likely have parts or lubricants; to find these, the product seria
 ### 1.2.4. Sessions and Classes
 
 A session is a one-on-one personal training service for one customer to one personal trainer.
-such services will add an additional charge for each one.
+Such services will add an additional charge for each one.
 
-Personal trainers can teach classes. classes have a fixed time and days it is ran.
+Personal trainers can teach classes. Classes have a fixed time and days it is ran.
+
+### 1.2.5. Data retention and Integrity Policies
+
+Data is assumed to be incrementally backed up.
+Thus it is safe to assume cascading deletes are fine.
+Future database designs can take into account versioning mechanisms to ensure data integrity.
 
 2. Key Entities
 ===============
@@ -113,9 +116,9 @@ They must equal the values in the constraint column.
 
 name  actual       constraints
 ----- ------------ ------------------
-BOOL  CHAR(1)      'y' OR 'n'
-PTYPE CHAR(1)      'c' OR 'e' 
-ETYPE CHAR(1)      'w' OR 'm'
+BOOL  CHAR(1)      'Y' OR 'Y'
+PTYPE CHAR(1)      'R' OR 'E' 
+ETYPE CHAR(1)      'W' OR 'M'
 TIME  NUMERIC(4,0) 2400 > TIME > 0
 
 There are two major entities in our model, "People" and "Equipment."
@@ -128,38 +131,38 @@ As a gym we "have" many people.
 People can be many things, employees, customers and personal trainers.
 Below is a simple table outlining all the properties these people have in common.
 
------------ ----------- ---------- -----------------------------------
-column name type        typeof key description
------------ ----------- ---------- -----------------------------------
-person_id   NUMERIC(10) PK         The primary identifier of a person.
+------------ ----------- ---------- -----------------------------------
+column name  type        typeof key description
+------------ ----------- ---------- -----------------------------------
+person_id    NUMERIC(10) PK         The primary identifier of a person.
 
-fisrt       VARCHAR(30) n/a        The person's first name, UTF8.
+first_name   VARCHAR(30) n/a        The person's first name, UTF8.
 
-last        VARCHAR(30) n/a        The person's last name, UTF8.
+last_name    VARCHAR(30) n/a        The person's last name, UTF8.
 
-phone       CHAR(11)    n/a        the full phone number.
+phone        CHAR(11)    n/a        the full phone number.
 
-address     VARCHAR(69) n/a        The address line.
+address      VARCHAR(69) n/a        The address line.
 
-state       CHAR(2)     n/a        The state.
+state        CHAR(2)     n/a        The state.
 
-city        VARCHAR(20) n/a        The city.
+city         VARCHAR(20) n/a        The city.
 
-person_type PTYPE       n/a        A char that determines if the user
-                                   is an employee or customer.
+person_type  PTYPE       n/a        A char that determines if the user
+                                    is an employee or customer.
 
-since       Date        n/a        A date describing when they were a
-                                   member of the gym. 
+member_since Date        n/a        A date describing when they were a
+                                    member of the gym. 
 
-birth       Date        n/a        DOB of a user can provide which
-                                   can be used to offer specials.
------------ ----------- ---------- -----------------------------------
+birth_date   Date        n/a        DOB of a user can provide which
+                                    can be used to offer specials.
+------------ ----------- ---------- -----------------------------------
 
 : Person entity
 
 ### 2.1.1. Customer
 
-A customer entity is a person who ends up using our services and pays us.
+A customer entity is a person who pays to consume servies offered by the gym.
 Below is the definition of a customer.
 
 ----------- ----------- ---------- -----------------------------------
@@ -216,7 +219,7 @@ trainer_id  NUMERIC(10) PK/FK      The primary identifier of a
 At the end, there are people associated with the gym.
 They can be divided into customers and employees.
 Customers have active or inactive memberships and are expected to pay their fees on time.
-Employees are people of a gym that provide services to the gym; they can also be customers as well.
+Employees are people of a gym that provide services to the gym; employees, as a benefit of their employment are provided basic membership for free.
 Trainers are a subset of employees which can teach classes or do individual training sessions with customers.
 For unique constraints, a trainer has a code which is used in other entites to ensure that only trainers are added to classes and services.
 
@@ -226,26 +229,26 @@ For unique constraints, a trainer has a code which is used in other entites to e
 A gym has numerous amounts of workout related equipment.
 Below is an entity used to identify this equipment at a high level.
 
------------ ------------ ---------- -----------------------------------
-column name type         typeof key description
------------ ------------ ---------- -----------------------------------
-equip_id    NUMERIC(10)  PK         The primary identifier of the gear.
+------------ ------------ ---------- -----------------------------------
+column name  type         typeof key description
+------------ ------------ ---------- -----------------------------------
+equip_id     NUMERIC(10)  PK         The primary identifier of the gear.
 
-name        VARCHAR(30)  n/a        name of the gear.
+name         VARCHAR(30)  n/a        name of the gear.
 
-brand       VARCHAR(30)  n/a        brand name of the gear.
+brand        VARCHAR(30)  n/a        brand name of the gear.
 
-equip_type  ETYPE        n/a        A char that determines if the 
-                                    equipment is a machine of if it is
-                                    A free weight or a weightlifting
-                                    component
+equip_type   ETYPE        n/a        A char that determines if the 
+                                     equipment is a machine of if it is
+                                     A free weight or a weightlifting
+                                     component
 
-value       NUMERIC(7,2) n/a        A number describing its current
-                                    estimated value to the business.
+value        NUMERIC(7,2) n/a        A number describing its current
+                                     estimated value to the business.
 
-since       Date         n/a        A date describing when the gear
-                                    was added to the gym.
------------ ------------ ---------- -----------------------------------
+purchased_at Date         n/a        A date describing when the gear
+                                     was added to the gym.
+------------ ------------ ---------- -----------------------------------
 
 : Gym Equipment
 
@@ -324,7 +327,7 @@ work_date   Date        n/a        When the maintenance is going to
 ### 2.2.4. Rules
 
 A gym has equipment which allows it to provide services.
-The gym has two splits of equipment, weightlifting and machine equipment.
+The gym has two major types of equipment: weightlifting and machine equipment.
 Weightlifting equipment can be discarded if it breaks due to their simplistic design, low price, and construction.
 However machine components are much more valuable and have more working parts which may need to be maintained and fixed, thus a much more complex entity.
 
@@ -334,7 +337,38 @@ However machine components are much more valuable and have more working parts wh
 These are the other entities of the business.
 This Describes activities and services the gym provides.
 
-3.1. Personal Sessions
+3.1 Fees
+--------
+
+This is an entity that contains a cost to a customer (or discount) and a short description describing what it's for.
+
+So, for instance, consider a promotional gym membership discount, one would indicate that it is a promotional and set a negative value for the fee.
+
+----------- ------------ ---------- -----------------------------------
+column name type         typeof key description
+----------- ------------ ---------- -----------------------------------
+fee_id      NUMERIC(10)  PK         An id referring to this fee.
+
+fee_amount  NUMERIC(5,2) n/a        The cost or discount for this fee
+
+fee_desc    VARCHAR(50)  n/a        A short description of the fee
+                                    e.g. "General Membership"
+----------- ------------ ---------- -----------------------------------
+
+3.2. CustomerFees
+-----------------
+
+A junction table which links fees to customers.
+
+----------- ------------ ---------- -----------------------------------
+column name type         typeof key description
+----------- ------------ ---------- -----------------------------------
+fee_id      NUMERIC(10)  PK/FK      The fee
+
+customer_id NUMERIC(10)  PK/FK      The customer
+----------- ------------ ---------- -----------------------------------
+
+3.3. Personal Sessions
 ----------------------
 
 Sessions that a customer has with a personal trainer, or base membership if trainer is not set.
@@ -348,18 +382,17 @@ customer_id NUMERIC(10)  PK/FK      The primary identifier of the
 trainer_id  NUMERIC(10)  PK/FK      The trainer that provides this
                                     service, if null, no trainer.
 
-service_fee NUMERIC(5,2) n/a        The cost this service adds to a
-                                    customer's fee.
+fee_id      NUMERIC(10)  FK         The fee attached tot his service.
 
 time        TIME         n/a        Time this session occurs
 
 days        VARCHAR(7)   n/a        The days this service occurs
-                                    (M)on (T)ue (W)ed (Th)ur (F)ri (S)a
+                                    (M)on (T)ue (W)ed Thu(r) (F)ri (S)a
 ----------- ------------ ---------- -----------------------------------
 
 : Session Entity
 
-3.2. Classes
+3.4. Classes
 ------------
 
 Optional classes taught by trainers at a given time and on the day(s) shown.
@@ -372,6 +405,10 @@ trainer_id  NUMERIC(10) PK/FK      The trainer that leads this class.
 class_name  VARCHAR(25) PK         The class that is being taught.
 
 time        TIME        n/a        The time this class is taught at.
+
+days        CHAR(7)     n/a        string of days the class is taught
+                                   on. e.g. for every day of the week:
+                                   mtwrf (r = thursday)
 ----------- ----------- ---------- -----------------------------------
 
 : Class entity
