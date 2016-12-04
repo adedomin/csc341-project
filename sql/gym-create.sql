@@ -211,7 +211,7 @@ CREATE TABLE Team00.CustomerFees (
 ) TABLESPACE CSC341_TEAM_DATA;
 
 CREATE UNIQUE INDEX Team00.Customer_Fees_pk_IDX ON Team00.CustomerFees (
-    feed_id,
+    fee_id,
     customer_id
 ) TABLESPACE CSC341_TEAM_DATA;
 
