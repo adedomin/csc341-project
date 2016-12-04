@@ -244,3 +244,68 @@ VALUES ('dumbbell', 'Hex Gears', 30.00, '1-Mar-2014');
 INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
 VALUES ('dumbbell', 'Hex Gears', 30.00, '1-Mar-2014');
 
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('rubber plate', 'Rubber Factory', 88.00, '1-Mar-2014');
+
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
+INSERT INTO Team00.Equipment (name, brand, value, purchased_at)
+VALUES ('grip plate', 'CAP', 25.00, '1-Mar-2014');
