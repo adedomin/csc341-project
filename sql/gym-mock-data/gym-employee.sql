@@ -5,4 +5,4 @@ INSERT INTO Team00.Employee (employee_id, wage)
 
 UPDATE Team00.Employee
 SET is_trainer = 'Y';
-WHERE rand() <= 0.1;
+WHERE dbms_random.value(0.00, 1.00) <= 0.10;

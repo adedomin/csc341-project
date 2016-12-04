@@ -11,4 +11,4 @@ SET last_payment = TO_DATE(
             TO_CHAR(DATE '2015-12-31','J'))
     )
 ) AND is_active = 'N';
-WHERE rand() <= 0.2;
+WHERE dbms_random.value(0.00, 1.00) <= 0.20;
