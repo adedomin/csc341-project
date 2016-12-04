@@ -5,7 +5,7 @@ CREATE TABLE Team00.Person (
     phone           CHAR(16)        NOT NULL,
     address         VARCHAR(69)     NOT NULL,
     city            VARCHAR(30)     NOT NULL,
-    state           CHAR(2)         NOT NULL,
+    state           CHAR(2)         DEFAULT "CT",
     person_type     CHAR(1),
     member_since    DATE,
     birth_date      DATE
