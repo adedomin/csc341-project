@@ -28,7 +28,7 @@ ALTER TABLE Team00.Person ADD (
 
 CREATE TABLE Team00.Customer (
     customer_id     NUMERIC(10,0) NOT NULL,
-    last_payment    DATE          DEFAULT GETDATE(),
+    last_payment    DATE,
     is_active       CHAR(1)       DEFAULT 'Y'
 ) TABLESPACE CSC341_TEAM_DATA;
 

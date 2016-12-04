@@ -1,5 +1,5 @@
-INSERT INTO Team00.Customer (customer_id)
-    SELECT person_id 
+INSERT INTO Team00.Customer (customer_id, last_payment)
+    SELECT person_id, GETDATE()
     FROM Team00.Person
     WHERE person_type = "C";
 

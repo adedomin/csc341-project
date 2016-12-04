@@ -1,7 +1,7 @@
 -- set all users to customers
-UPDATE Person SET person_type = "C";
+UPDATE Team00.Person SET person_type = "C";
 
 -- random employees
-UPDATE Person 
+UPDATE Team00.Person 
 SET person_type = "E"
 WHERE rand() <= 0.10;
