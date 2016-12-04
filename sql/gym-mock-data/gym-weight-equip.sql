@@ -1,4 +1,4 @@
-INSERT INTO Team00.WeightEquip (equip_id, weight, weight_type, diameter)
+INSERT INTO Team00.WeightEquip (equip_id, weight, weight_type)
 SELECT equip_id, trunc(dbms_random.value(5,100), 0), 'dumbbell'
 FROM Team00.Equipment
 WHERE equip_type = 'W'
