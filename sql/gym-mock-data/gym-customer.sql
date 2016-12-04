@@ -1,7 +1,7 @@
 INSERT INTO Team00.Customer (customer_id, last_payment)
     SELECT person_id, GETDATE()
     FROM Team00.Person
-    WHERE person_type = "C";
+    WHERE person_type = 'C';
 
 UPDATE Team00.Customer
 SET last_payment = TO_DATE(
