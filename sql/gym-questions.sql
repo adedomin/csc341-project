@@ -258,3 +258,5 @@ AND time BETWEEN 800 AND 1700;
 -- CLASS_NAME                           TIME DAYS
 -- ------------------------------ ---------- -------
 -- spin class                           1300 wf
+
+-- 11) Make sure session fees are inserted into CustomerFees (just discovered model weakness)?
