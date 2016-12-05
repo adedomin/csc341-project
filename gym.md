@@ -33,18 +33,19 @@ This data model should represent the core parts of our business, to enhance the 
 1.1. Example Use Cases[^1]
 ----------------------
 
-[^1]: please see ./sql/gym-questions.sql for implementations of qustions and their answers.
+[^1]: please see ./sql/gym-questions.sql for implementations of qustions and their answers using test data.
 
-  * The database should allow us to quickly discover the total value of the inventory.
-  * The database should allow us to calculate how much money we should make from subscriptions.
+  * The sales and retention team want to know all the phone numbers and names of inactive users
+  * How many machines are available for the upcoming spin class (cycle machines)?
+  * Check to see if a classes conflicts with personal trainer sessions.
+  * Check to ensure that personal trainer sessions do not conflict.
+  * Get total expected monthly amount from each customer, apply birthday discount for people with birthdays this month.
+  * Use above to derive total expected amount for this month.
   * The database should show employees what machines they are responsible for.
-  * The database should allow us to track broken down machines.
-  * The database should allow our sales and retention team to reach out to inactive members.
-  * The database should help us to make equipment purchasing decisions based on number of these equipments.
+  * The database should allow us to track broken down machines and to make sure they have maintenance scheduled.
+  * The database should help us to make equipment purchasing decisions based on number of these equipments; for instance: make sure there are at least 10 plates to one weightlifting bar.
   * The database should help us to find parts for broken machines, by finding them and returning a serial number to look up.
   * The database should retain personal information for billing, handing out promotional offerings, etc.
-  * The database should assist trainers be notified who, a member, they are training.
-  * The database can be used to find out if enough machines are available for a training session.
 
 1.2. Business Rules
 -------------------
@@ -52,7 +53,7 @@ This data model should represent the core parts of our business, to enhance the 
 Like all gyms and places of business, there are people.
 People can be a variety of things; customers, employees and trainers.
 People have full names comprised of first names and last names.
-People are assigned their starting date into their record.
+People are assigned their starting date (as member_since) into their record.
 
 A person can be a customer.
 A customer shares the same id as a person record.
@@ -102,13 +103,21 @@ A machine will likely have parts or lubricants; to find these, the product seria
 A session is a one-on-one personal training service for one customer to one personal trainer.
 Such services will add an additional charge for each one.
 
-Personal trainers can teach classes. Classes have a fixed time and days it is ran.
+Personal trainers can teach classes. Classes have a fixed time and days it is ran; however, they are a free service to the members.
 
 ### 1.2.5. Data retention and Integrity Policies
 
 Data is assumed to be incrementally backed up.
 Thus it is safe to assume cascading deletes are fine.
 Future database designs can take into account versioning mechanisms to ensure data integrity.
+
+Cascading deletes are specified because it's assumed when a user leaves and wants to be removed from our person's list, their data should not be persisted. It is more likely customer or employee entries would be removed before a person entity is.
+Thus cascading deletes should not apply in many cases.
+
+On fields likes CustomerFees, it's generally assumed if a customer is removed, then it should automatically remove all traces of payment from the system, thus the cascading delete policy.
+
+Equipment that is thrown away should automatically clean up its subclass tables, thus cascading deletes.
+These tables shouldn't even be touched directly.
 
 2. Key Entities
 ===============
@@ -146,7 +155,7 @@ phone        CHAR(11)    n/a        the full phone number.
 
 address      VARCHAR(69) n/a        The address line.
 
-state        CHAR(2)     n/a        The state.
+state        CHAR(2)     n/a        The state. Assumed 'CT' if left out
 
 city         VARCHAR(20) n/a        The city.
 
@@ -179,7 +188,9 @@ last_paymet Date        n/a        Indicates if this customer is up to
 is_active   BOOL        n/a        Programmatically indicates if 
                                    customer is up to date with payment
                                    Determined by since field in parent
-                                   and last_pay date
+                                   and last_pay date. Customers newly
+                                   enrolled should be assumed to be
+                                   Active on creation unless specified
 ----------- ----------- ---------- -----------------------------------
 
 : Customer entity
@@ -199,7 +210,8 @@ wage        NUMERIC(5,2) n/a        amount paid per hour.
                          
 is_trainer  BOOL         n/a        Determines if the user is a
                                     generic employee or a physical 
-                                    therapist or trainer.
+                                    therapist or trainer. should be 
+                                    false by default.
 ----------- ------------ ---------- -----------------------------------
 
 : Employee entity
@@ -295,7 +307,8 @@ machine_type VARCHAR(20) n/a        The type of machine this is.
                                     e.g. treadmill, powercage, bench...
 
 in_order     BOOL        n/a        If the machine is functioning as
-                                    expected.
+                                    expected. Assumed true on entry,
+                                    unless specified otherwise.
 
 maintained   Date        n/a        Last maintained at this date.
 

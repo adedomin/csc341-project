@@ -35,7 +35,6 @@ WHERE machine_type LIKE '%cycle%';
 --                   10
 
 --- 3) Check to see if a classes conflicts with a personal trainer sessions
--- should be null, as in no rows
 
 SELECT c.class_name, s.trainer_id, s.customer_id, c.time
 FROM Team00.Sessions s
