@@ -5,7 +5,7 @@ abstract: |
     *firstly, we will discuss the upper most important entities, display tables about them and talk about their sub classes and how they enhance the data model as a whole.*
     *afterwards, I will discuss the high level knowledge of the business and how these entites came about.*
     *Models of the data will be strewn across the document to enhance the understanding.*
-    *For detailed and summarized revision history, please see: <https://github.com/adedomin/csc341-project>*
+    *For detailed and summarized revision history, please see: <https://github.com/adedomin/csc341-project/commits/master>*
 
 papersize: letter
 geometry: margin=2cm
@@ -28,10 +28,12 @@ header-includes:
 ===============
 
 The problem domain we seek to solve is organizing our knowledge of our gym business into a clear, concise data model.
-THe key being to represent the core parts of our business, to enhance the experience of out customer and to get insights into what we, the gym, need to do to make it better.
+This data model should represent the core parts of our business, to enhance the experience of out customers and to get insights into what we, the gym, need to do to make it better.
 
-1.1. Example Use Cases
+1.1. Example Use Cases[^1]
 ----------------------
+
+[^1]: please see ./sql/gym-questions.sql for implementations of qustions and their answers.
 
   * The database should allow us to quickly discover the total value of the inventory.
   * The database should allow us to calculate how much money we should make from subscriptions.
