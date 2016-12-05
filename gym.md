@@ -266,7 +266,9 @@ purchased_at Date         n/a        A date describing when the gear
 
 : Gym Equipment
 
-### 2.2.1. Weightlifting Equipment
+### 2.2.1. Weightlifting Equipment[^weq]
+
+[^weq]: note that the table name is WeightEquip in the DB
 
 This is a subtype of equipment which describes simpler equipment involved mostly with weight training.
 Examples: plates, dumbdells, 2" olympic bars.
@@ -292,7 +294,9 @@ diameter    NUMERIC(2)  n/a        For bars and plates; This describes
 
 : Weightlifting Equipment Entity
 
-### 2.2.2. Machine Equipment
+### 2.2.2. Machine Equipment[^macheq]
+
+[^macheq]: note that the table name is MachineEquip
 
 A subtype of equipment which describes products like treadmills and other "machine" training devices.
 This also describes things like powercages and squat racks which might have more use in weightlifting.

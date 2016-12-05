@@ -36,6 +36,12 @@ CREATE UNIQUE INDEX Team00.Customer_pk_IDX ON Team00.Customer (
     customer_id
 ) TABLESPACE CSC341_TEAM_DATA;
 
+-- made based on question 1 (sql-questions.sql)
+CREATE INDEX Team00.Customer_active_IDX ON Team00.Customer (
+    is_active
+) TABLESPACE CSC341_TEAM_DATA;
+
+
 ALTER TABLE Team00.Customer ADD (
     CONSTRAINT customer_person_fk
         FOREIGN KEY (customer_id) REFERENCES Person (person_id)
@@ -136,6 +142,11 @@ CREATE TABLE Team00.WeightEquip (
 
 CREATE UNIQUE INDEX Team00.WeightEquip_pk_IDX ON Team00.WeightEquip (
     equip_id
+) TABLESPACE CSC341_TEAM_DATA;
+
+-- made based on question 8 in gym-questions.sql
+CREATE INDEX Team00.WeightEquip_type_IDX ON Team00.WeightEquip (
+        weight_type
 ) TABLESPACE CSC341_TEAM_DATA;
 
 ALTER TABLE Team00.WeightEquip ADD (

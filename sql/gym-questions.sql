@@ -64,16 +64,15 @@ WHERE a.trainer_id = b.trainer_id
 -- 5) Get total expected monthly amount from each customer, apply birthday discount for people with birthdays this month (dec)
 
 SELECT customer_id, sum(fee_amount) AS TOTAL_DUE
-FROM (
-    SELECT cp.customer_id, f.fee_id
-    FROM ( SELECT c.customer_id, p.birth_date
-           FROM Team00.Customer c
-           INNER JOIN Team00.Person p
-               ON p.person_id = c.customer_id ) cp
-          CROSS JOIN ( SELECT fee_id 
-                       FROM Team00.Fees
-                       WHERE lower(fee_desc) LIKE '%birthday%') f
-      WHERE to_char(CURRENT_DATE, 'MONTH') = to_char(cp.birth_date, 'MONTH')
+FROM ( SELECT cp.customer_id, f.fee_id
+       FROM ( SELECT c.customer_id, p.birth_date
+              FROM Team00.Customer c
+              INNER JOIN Team00.Person p
+                ON p.person_id = c.customer_id ) cp
+              CROSS JOIN ( SELECT fee_id 
+                           FROM Team00.Fees
+                           WHERE lower(fee_desc) LIKE '%birthday%') f
+              WHERE to_char(CURRENT_DATE, 'MONTH') = to_char(cp.birth_date, 'MONTH')
     UNION ALL
     SELECT customer_id, fee_id FROM Team00.CustomerFees) u
 INNER JOIN Team00.Fees f
@@ -179,16 +178,15 @@ ORDER BY TOTAL_DUE;
 SELECT sum(TOTAL_DUE) AS monthly_accounts_recv
 FROM (
     SELECT customer_id, sum(fee_amount) AS TOTAL_DUE
-    FROM (
-        SELECT cp.customer_id, f.fee_id
-        FROM ( SELECT c.customer_id, p.birth_date
-               FROM Team00.Customer c
-               INNER JOIN Team00.Person p
-                   ON p.person_id = c.customer_id ) cp
-              CROSS JOIN ( SELECT fee_id 
-                           FROM Team00.Fees
-                           WHERE lower(fee_desc) LIKE '%birthday%') f
-          WHERE to_char(CURRENT_DATE, 'MONTH') = to_char(cp.birth_date, 'MONTH')
+    FROM ( SELECT cp.customer_id, f.fee_id
+           FROM ( SELECT c.customer_id, p.birth_date
+                  FROM Team00.Customer c
+                  INNER JOIN Team00.Person p
+                    ON p.person_id = c.customer_id ) cp
+                  CROSS JOIN ( SELECT fee_id 
+                               FROM Team00.Fees
+                               WHERE lower(fee_desc) LIKE '%birthday%') f
+                  WHERE to_char(CURRENT_DATE, 'MONTH') = to_char(cp.birth_date, 'MONTH')
         UNION ALL
         SELECT customer_id, fee_id FROM Team00.CustomerFees) u
     INNER JOIN Team00.Fees f
@@ -199,3 +197,37 @@ FROM (
 -- MONTHLY_ACCOUNTS_RECV
 -- ---------------------
 --                  4075
+
+-- 7) What employees (their names) are expected to maintain what machines. 
+--    machine as in id and serial number with what needs work.
+
+SELECT p.first_name, p.last_name, m.equip_id, m.serial, m.needs_work 
+FROM ( SELECT px.first_name, px.last_name, ex.employee_id
+       FROM Team00.Person px
+       INNER JOIN Team00.Employee ex
+         ON px.person_id = ex.employee_id ) p
+INNER JOIN ( SELECT mx.equip_id, mx.serial, mtx.needs_work, mtx.employee_id
+             FROM Team00.MachineEquip mx
+             INNER JOIN Team00.Maintenance mtx
+               ON mx.equip_id = mtx.equip_id ) m
+ON m.employee_id = p.employee_id;
+
+-- FIRST_NAME                     LAST_NAME                        EQUIP_ID SERIAL                         NEEDS_WORK
+-- ------------------------------ ------------------------------ ---------- ------------------------------ --------------------------------------------------
+-- Carl                           Morgan                                  4 IJJKDFO5HGCO0JTHEVXFZWMM774EMZ resistor in motor
+-- Scott                          Larson                                  6 A4SRA29NV6RYGWNJ4V0OI1CRVD1DMH belt lubrication
+-- James                          Simpson                                 9 66GS2J457KXJ217Y3NN8ZMSZ2E64I7 check screw tightness
+
+-- 8) Make sure there are at least 10 plates to one weightlifting bar.
+
+SELECT p.plates / b.bars
+FROM ( SELECT count(weight_type) AS plates
+       FROM Team00.WeightEquip
+       WHERE weight_type LIKE '%plate%' ) p,
+     ( SELECT count(weight_type) AS bars
+       FROM Team00.WeightEquip
+       WHERE weight_type LIKE '%bar%' ) b;
+
+-- P.PLATES/B.BARS
+-- ---------------
+--      3.44444444
