@@ -42,10 +42,9 @@ This data model should represent the core parts of our business, to enhance the 
   * Get total expected monthly amount from each customer, apply birthday discount for people with birthdays this month.
   * Use above to derive total expected amount for this month.
   * The database should show employees what machines they are responsible for.
-  * The database should allow us to track broken down machines and to make sure they have maintenance scheduled.
   * The database should help us to make equipment purchasing decisions based on number of these equipments; for instance: make sure there are at least 10 plates to one weightlifting bar.
-  * The database should help us to find parts for broken machines, by finding them and returning a serial number to look up.
   * The database should retain personal information for billing, handing out promotional offerings, etc.
+  * Determine what classes are taught on specified times and days.
 
 1.2. Business Rules
 -------------------
