@@ -40,7 +40,7 @@ SELECT c.class_name, s.trainer_id, s.customer_id, c.time
 FROM Team00.Sessions s
 INNER JOIN Team00.Class c
     ON c.trainer_id = s.trainer_id
-WHERE c.time = s.time;
+WHERE c.time = s.time AND c.days = s.days;
 
 -- CLASS_NAME                     TRAINER_ID CUSTOMER_ID       TIME
 -- ------------------------------ ---------- ----------- ----------
@@ -52,7 +52,7 @@ WHERE c.time = s.time;
 SELECT a.customer_id, b.customer_id, a.trainer_id, a.time
 FROM Team00.Sessions a
 INNER JOIN Team00.Sessions b
-    ON a.time = b.time
+    ON a.time = b.time AND a.days = b.days
 WHERE a.trainer_id = b.trainer_id
   AND a.customer_id <> b.customer_id;
 
@@ -201,33 +201,56 @@ FROM (
 -- 7) What employees (their names) are expected to maintain what machines. 
 --    machine as in id and serial number with what needs work.
 
-SELECT p.first_name, p.last_name, m.equip_id, m.serial, m.needs_work 
+SELECT p.first_name, p.last_name, m.equip_id, m.serial, m.needs_work, m.work_date
 FROM ( SELECT px.first_name, px.last_name, ex.employee_id
        FROM Team00.Person px
        INNER JOIN Team00.Employee ex
          ON px.person_id = ex.employee_id ) p
-INNER JOIN ( SELECT mx.equip_id, mx.serial, mtx.needs_work, mtx.employee_id
+INNER JOIN ( SELECT mx.equip_id, mx.serial, mtx.needs_work, mtx.employee_id, mtx.work_date
              FROM Team00.MachineEquip mx
              INNER JOIN Team00.Maintenance mtx
                ON mx.equip_id = mtx.equip_id ) m
-ON m.employee_id = p.employee_id;
+ON m.employee_id = p.employee_id
+ORDER BY m.work_date;
 
--- FIRST_NAME                     LAST_NAME                        EQUIP_ID SERIAL                         NEEDS_WORK
--- ------------------------------ ------------------------------ ---------- ------------------------------ --------------------------------------------------
--- Carl                           Morgan                                  4 IJJKDFO5HGCO0JTHEVXFZWMM774EMZ resistor in motor
--- Scott                          Larson                                  6 A4SRA29NV6RYGWNJ4V0OI1CRVD1DMH belt lubrication
--- James                          Simpson                                 9 66GS2J457KXJ217Y3NN8ZMSZ2E64I7 check screw tightness
-
+-- FIRST_NAME                     LAST_NAME                        EQUIP_ID SERIAL                         NEEDS_WORK                                         WORK_DATE
+-- ------------------------------ ------------------------------ ---------- ------------------------------ -------------------------------------------------- ---------
+-- Scott                          Larson                                  6 4UNGEZL8DZEQH0SRQPO70HW6BBQVLP belt lubrication                                   05-DEC-16
+-- Carl                           Morgan                                  4 YOXUH6YTVFW8ISQIB2B7WQYS2NKHX0 resistor in motor                                  06-DEC-16
+-- James                          Simpson                                 9 4998AW8FLRGF1VPO8HJTIHIPVY0BCR check screw tightness                              08-DEC-16
+-- 
 -- 8) Make sure there are at least 10 plates to one weightlifting bar.
 
-SELECT p.plates / b.bars
+SELECT p.plates / b.bars AS plates_to_bars_ratio
 FROM ( SELECT count(weight_type) AS plates
        FROM Team00.WeightEquip
-       WHERE weight_type LIKE '%plate%' ) p,
+       WHERE weight_type = 'plate' ) p,
      ( SELECT count(weight_type) AS bars
        FROM Team00.WeightEquip
-       WHERE weight_type LIKE '%bar%' ) b;
+       WHERE weight_type = 'bar' ) b;
 
--- P.PLATES/B.BARS
--- ---------------
---      3.44444444
+-- PLATES_TO_BARS_RATIO
+-- --------------------
+--           3.44444444
+
+-- 9) get address line and names of employees and find their weekly wages. but find one which one costs the most.
+
+SELECT p.first_name, p.last_name, p.address, p.city, p.state, e.wage * 40
+FROM Team00.Person p
+INNER JOIN ( SELECT employee_id, wage
+             FROM Team00.Employee ) e
+ON p.person_id = e.employee_id
+WHERE e.wage = ( SELECT max(wage) FROM Team00.Employee );
+
+-- FIRST_NAME                     LAST_NAME                      ADDRESS                                                               CITY                                                                  ST  E.WAGE*40
+-- ------------------------------ ------------------------------ --------------------------------------------------------------------- --------------------------------------------------------------------- -- ----------
+-- John                           Tucker                         49 Veith Pass                                                         Tomsk                                                                 CT 1107.6
+
+-- 10) What classes are taught on mondays wednesdays and fridays between 8 am and 5 pm?
+
+SELECT class_name, time, days
+FROM Team00.Class
+WHERE ( days LIKE '%m%' 
+        OR days LIKE '%w%'
+        OR days LIKE '%f%' )
+AND time BETWEEN 800 AND 1700;

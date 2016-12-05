@@ -9,11 +9,11 @@ values (101, 'Y', 23.00);
 insert into Team00.Trainer (trainer_id)
 values (101);
 
-insert into Team00.Sessions (customer_id, trainer_id, fee_id, time)
-values (24, 101, 2, 1800);
+insert into Team00.Sessions (customer_id, trainer_id, fee_id, time, days)
+values (24, 101, 2, 1800, 'mf');
 
-insert into Team00.Class (trainer_id, class_name, time)
-values (101, 'squating to the moon', 1800);
+insert into Team00.Class (trainer_id, class_name, time, days)
+values (101, 'squating to the moon', 1800, 'mf');
 
-insert into Team00.Sessions (customer_id, trainer_id, fee_id, time)
-values (27, 101, 2, 1800);
+insert into Team00.Sessions (customer_id, trainer_id, fee_id, time, days)
+values (27, 101, 2, 1800, 'mf');
