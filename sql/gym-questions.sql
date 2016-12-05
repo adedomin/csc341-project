@@ -254,3 +254,7 @@ WHERE ( days LIKE '%m%'
         OR days LIKE '%w%'
         OR days LIKE '%f%' )
 AND time BETWEEN 800 AND 1700;
+
+-- CLASS_NAME                           TIME DAYS
+-- ------------------------------ ---------- -------
+-- spin class                           1300 wf
