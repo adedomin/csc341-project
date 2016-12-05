@@ -131,14 +131,14 @@ INSERT INTO Team00.Trainer (trainer_id)
     SELECT employee_id
     FROM Team00.Employee
     WHERE is_trainer = 'Y';
-INSERT INTO Team00.Class (trainer_id, class_name, time)
-VALUES (1, 'spin class', 1300);
+INSERT INTO Team00.Class (trainer_id, class_name, time, days)
+VALUES (1, 'spin class', 1300, 'wf');
 
-INSERT INTO Team00.Class (trainer_id, class_name, time)
-VALUES (2, 'dance', 1500);
+INSERT INTO Team00.Class (trainer_id, class_name, time, days)
+VALUES (2, 'dance', 1500, 'tr');
 
-INSERT INTO Team00.Class (trainer_id, class_name, time)
-VALUES (3, 'weight training', 1000);
+INSERT INTO Team00.Class (trainer_id, class_name, time, days)
+VALUES (3, 'weight training', 1000, 'trs');
 INSERT INTO Team00.Fees (fee_amount, fee_desc)
 VALUES (40.00, 'General Membership');
 
@@ -529,11 +529,11 @@ values (101, 'Y', 23.00);
 insert into Team00.Trainer (trainer_id)
 values (101);
 
-insert into Team00.Sessions (customer_id, trainer_id, fee_id, time)
-values (24, 101, 2, 1800);
+insert into Team00.Sessions (customer_id, trainer_id, fee_id, time, days)
+values (24, 101, 2, 1800, 'mf');
 
-insert into Team00.Class (trainer_id, class_name, time)
-values (101, 'squating to the moon', 1800);
+insert into Team00.Class (trainer_id, class_name, time, days)
+values (101, 'squating to the moon', 1800, 'mf');
 
-insert into Team00.Sessions (customer_id, trainer_id, fee_id, time)
-values (27, 101, 2, 1800);
+insert into Team00.Sessions (customer_id, trainer_id, fee_id, time, days)
+values (27, 101, 2, 1800, 'mf');
