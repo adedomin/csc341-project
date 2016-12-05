@@ -405,11 +405,14 @@ fee_id      NUMERIC(10)  FK         The fee attached tot his service.
 
 time        TIME         n/a        Time this session occurs
 
-days        VARCHAR(7)   n/a        The days this service occurs
+days[^days] VARCHAR(7)   n/a        The days this service occurs
                                     (M)on (T)ue (W)ed Thu(r) (F)ri (S)a
 ----------- ------------ ---------- -----------------------------------
 
 : Session Entity
+
+[^days]: note this is a composite value, however because of the simplicity of the structure, it was left as such. This was decided because it made more sense than having 6 new columns with a name of each day or a new table of days (this doesn't make much sense). Note the day can be retrieve using *days LIKE '%{day char}%'*.
+
 
 3.4. Classes
 ------------
