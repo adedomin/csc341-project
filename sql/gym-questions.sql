@@ -259,4 +259,24 @@ AND time BETWEEN 800 AND 1700;
 -- ------------------------------ ---------- -------
 -- spin class                           1300 wf
 
--- 11) Make sure session fees are inserted into CustomerFees (just discovered model weakness)?
+-- 11) Make sure session fees are inserted into CustomerFees.
+
+INSERT INTO Team00.CustomerFees (customer_id, fee_id)
+SELECT c.customer_id, f.fee_id
+FROM Team00.Customer c
+CROSS JOIN ( SELECT fee_id 
+             FROM Team00.Fees
+             WHERE lower(fee_desc) LIKE '%personal training%') f
+WHERE NOT EXISTS (
+        SELECT * 
+        FROM Team00.CustomerFees cf
+        WHERE cf.customer_id = c.customer_id
+          AND cf.fee_id = f.fee_id )
+  AND EXISTS (
+        SELECT *
+        FROM Team00.Sessions s
+        WHERE s.customer_id = c.customer_id
+          AND s.fee_id = f.fee_id
+);
+
+-- 2 rows were inserted; I didn't add them manually in ./gym-mock-data/gym-extra.sql
